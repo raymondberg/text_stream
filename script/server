@@ -1,4 +1,4 @@
-export FLASK_APP=app
+export FLASK_APP=text_stream
 export FLASK_ENV=development
 export FLASK_DEBUG=true
 export SECRET_KEY=just-some-local-secret
