@@ -16,6 +16,12 @@ messages = {
         "I'm courageous and stand up for myself",
         "I will succeed today.",
         "I deserve to have joy in my life.",
+        "Thanks for everything that you did for me this week!",
+        "You are truly a great friend; thank you for being a golden girl",
+        "Wowie wow wow I can't think of anything more positive to say",
+        "Do you think my brain is going to start melting?",
+        "Really these can be any sentences at all, it's just seed data",
+        "Oh, that's a good point. Thanks for being so helpful with ideas and such",
     ],
     "rejected": [
         "you suck",
@@ -26,8 +32,9 @@ messages = {
 
 for m in messages["approved"]:
     db.session.add(Message(content=m))
+    db.session.commit()
 
 for m in messages["rejected"]:
     db.session.add(Message(content=m))
+    db.session.commit()
 
-db.session.commit()

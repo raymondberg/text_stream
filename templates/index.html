@@ -10,19 +10,10 @@
 
 {% block custom_js %}
 <script>
+  listenForMessages()
+
   socket.on('connect', function() {
     socket.emit('resend_all');
-  });
-
-  var messageStack = {};
-
-  socket.on('message', function(message) {
-    console.log("received" + message.id)
-    if(messageStack[message.id] || isMessageDisplayed(message.id)) {
-      console.log("dropping " + message.id)
-    } else {
-      messageStack[message.id] = message.content
-    }
   });
 
   function displayTick() {

@@ -56,8 +56,11 @@ class Message(db.Model):
 
 @app.route("/")
 def home():
-    return render_template("index.html", messages=[Message(content="hi")])
+    return render_template("index.html")
 
+@app.route("/rainbow")
+def rainbow():
+    return render_template("rainbow.html")
 
 def emit(message):
     socketio.emit("message", {"id": message.id, "content": message.content}, broadcast=True)

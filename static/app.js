@@ -1,4 +1,5 @@
 var socket = io();
+var messageStack = {};
 
 function isMessageDisplayed(messageId){
   return $("#message_" + messageId).length
@@ -38,4 +39,15 @@ var randomProperty = function (obj) {
   var keys = Object.keys(obj);
   return keys[ keys.length * Math.random() << 0];
 };
+
+function listenForMessages() {
+  socket.on('message', function(message) {
+    console.log("received" + message.id)
+    if(messageStack[message.id] || isMessageDisplayed(message.id)) {
+      console.log("dropping " + message.id)
+    } else {
+      messageStack[message.id] = message.content
+    }
+  });
+}
 

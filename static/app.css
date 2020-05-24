@@ -37,3 +37,19 @@ body {
 .reject-button {
   background-color: red;
 }
+
+.rainbow-color {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 9em;
+  width: 20em;
+  padding: .5em;
+}
+
+.rainbow-red { background-color: #ffb3ba ; border-left: 3px solid #fcb0b7}
+.rainbow-orange { background-color: #ffd2b3 ; border-left: 3px solid #fccfb0}
+.rainbow-yellow { background-color: #fff8b3 ; border-left: 3px solid #fcf5b0}
+.rainbow-green { background-color: #baffb3 ; border-left: 3px solid #b7fcb0}
+.rainbow-blue { background-color: #bae1ff ; border-left: 3px solid #b7d8fc}

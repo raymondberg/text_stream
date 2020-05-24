@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="messages" class="row">
+
+</div>
+
+{% endblock %}
+
+{% block custom_js %}
+<script>
+  listenForMessages()
+
+  socket.on('connect', function() {
+    socket.emit('resend_all');
+  });
+
+  var rainbowColors = [
+    "red", "orange", "yellow", "green", "blue",
+  ]
+
+  function getRainbowCounts() {
+    return rainbowColors.map(color => $(".rainbow-" + color).length)
+  }
+
+  function addToRainbow(messageId, messageContent) {
+    var counts = getRainbowCounts()
+    var lowestCount = lowestIndex = 9999
+    for (var i=0; i < counts.length; i++) {
+      if (counts[i] < lowestCount) {
+        lowestIndex = i
+        lowestCount = counts[i]
+      }
+    }
+
+
+    console.log("placing " + lowestIndex)
+    $("<div>", {
+      id: "message_" + messageId,
+      "class": `rainbow-color rainbow-${rainbowColors[lowestIndex]}`,
+      style: `left: ${20 * lowestCount}em; top: ${9 * lowestIndex}em`,
+    }).text(messageContent).prependTo($("#messages"))
+    window.scroll({left: 99999999})
+  }
+
+  function displayTick() {
+    var messageId = randomProperty(messageStack)
+
+    if (messageId) {
+      if (isMessageDisplayed(messageId)) {
+        console.log("tried to render, but caught duplicate" + messageId)
+      } else {
+        addToRainbow(messageId, messageStack[messageId])
+      }
+      delete messageStack[messageId]
+    }
+  }
+
+  setInterval(displayTick, 1000)
+</script>
+{% endblock %}
