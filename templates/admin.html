@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+  Message: <input type="text" id="message_input" />
+  <input type="button" value="Send" onclick="submitMessage()"/>
+</div>
+
+{% endblock %}
+
+{% block custom_js %}
+
+<script>
+  var socket = io();
+  socket.on('connect', function() {
+    socket.emit('resend_all');
+  });
+
+  $(document).on('keypress',function(e) {
+      if(e.which == 13) {
+            submitMessage()
+      }
+  });
+
+  function submitMessage() {
+    console.log("Emitting: " + $("#message_input").val())
+    socket.emit("submit_message", {"content": $("#message_input").val()})
+
+    $("#message_input").val("")
+  }
+</script>
+
+{% endblock %}

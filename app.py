@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, render_template
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -29,8 +29,16 @@ class Message(db.Model):
 def home():
     return render_template("index.html", messages=[Message(content="hi")])
 
+
+def emit(message):
+    socketio.emit("message", {"content": message}, broadcast=True)
+
 @app.route("/admin")
 def admin():
-    socketio.emit("message", {"content": "admin logged in"}, broadcast=True)
-    return "hi, admin"
+    emit("admin logged in")
+    return render_template("admin.html")
 
+@socketio.on("submit_message")
+def submit_message(data):
+    print(data)
+    emit(data.get("content"))
