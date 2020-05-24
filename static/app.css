@@ -1,0 +1,39 @@
+
+body {
+  background-color: #172A3A;
+}
+
+.text-container {
+  background-color: #CDE;
+  padding: .5em 1em 2em 1em;
+  margin-top: 2em;
+}
+
+.text-container h2 {
+  margin-top: 2em;
+}
+
+.message {
+  border: 2px dotted #508991;
+  background-color: #74B3CE;
+  margin: 1em;
+  padding: 1em;
+}
+
+.id-field {
+  float: left;
+  width: 3em;
+  font-weight: bold;
+}
+
+.action-button {
+  margin: 0 .25em 0 .25em;
+}
+
+.approve-button {
+  background-color: green;
+}
+
+.reject-button {
+  background-color: red;
+}

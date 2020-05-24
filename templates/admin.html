@@ -1,15 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Submit message</h2>
-<div>
-  Message: <input type="text" id="message_input" />
-  <input type="button" value="Send" onclick="submitMessage()"/>
-</div>
+<div class="text-container">
+  <h2>Submit message</h2>
+  <div>
+    Message: <input type="text" id="message_input" />
+    <input type="button" value="Send" onclick="submitMessage()"/>
+  </div>
 
-<h2>Approve messages</h2>
+  <h2>Approve messages</h2>
 
-<div id="messages_awaiting_approval">
+  <div id="messages_awaiting_approval">
+  </div>
 </div>
 
 {% endblock %}
@@ -61,18 +63,18 @@
   function findOrDisplay(approvalRequest) {
     var id = "approval_request_" + approvalRequest.id;
     if (! $("#"+id).length) {
-      var element = $("<div>", {id: id})
-      $("<span>", {style: "float: left; width: 3em; font-weight: bold"}).text(approvalRequest.id).appendTo(element)
+      var element = $("<div>", {id: id, "class": "message-approval"})
+      $("<span>", {"class": "id-field"}).text(approvalRequest.id).appendTo(element)
       $(
         "<input>",
-        {type:"button", value: "👍", style: "background-color: green; margin: 0 .25em 0 .5em"}
-       )
+        {type:"button", value: "👍", "class": "action-button approve-button" },
+      )
         .click(function() { approve(approvalRequest.id)})
         .text(approvalRequest.content)
         .appendTo(element)
       $(
         "<input>",
-        {type:"button", value: "👎", style: "background-color: red; margin: 0 .5em 0 .25em"}
+        {type:"button", value: "👎", "class": "action-button reject-button"}
        )
         .click(function() { reject(approvalRequest.id)})
         .text(approvalRequest.content)

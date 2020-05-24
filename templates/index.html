@@ -40,7 +40,7 @@
       if (isDisplayed(messageId)) {
         console.log("tried to render, but caught duplicate" + messageId)
       } else {
-        $("<div>", {id: "message_" + messageId}).text(messageStack[messageId]).appendTo($("#messages"))
+        $("<div>", {id: "message_" + messageId, "class": "message"}).text(messageStack[messageId]).prependTo($("#messages"))
       }
       delete messageStack[messageId]
     }
