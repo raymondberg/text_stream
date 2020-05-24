@@ -4,7 +4,8 @@ import sys
 sys.path.append(str(Path(__file__).parent.parent.absolute()))
 print(sys.path)
 
-from app import db, Message
+from text_stream.app import db
+from text_stream.models import Message
 
 messages = {
     "approved": [

@@ -11,4 +11,4 @@ if [ ! -f "bin/ngrok" ]; then
   unzip -o build/ngrok.zip ngrok -d bin
 fi
 
-pipenv run python -c "from app import db; db.create_all()"
+pipenv run python -c "from text_stream.app import db; db.create_all()"
