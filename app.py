@@ -1,9 +1,11 @@
 import os
 
 from flask import Flask, render_template
+from flask_socketio import SocketIO, emit
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+socketio = SocketIO(app)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 if 'SQLALCHEMY_DATABASE_URI' in os.environ:
@@ -26,3 +28,9 @@ class Message(db.Model):
 @app.route("/")
 def home():
     return render_template("index.html", messages=[Message(content="hi")])
+
+@app.route("/admin")
+def admin():
+    socketio.emit("message", {"content": "admin logged in"}, broadcast=True)
+    return "hi, admin"
+
