@@ -2,15 +2,14 @@
 
 {% block content %}
 
-<div id="messages">
+<div id="messages" class="row">
+
 </div>
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block custom_js %}
 <script>
-  function isDisplayed(messageId){
-    return $("#message_" + messageId).length
-  }
-  var socket = io();
   socket.on('connect', function() {
     socket.emit('resend_all');
   });
@@ -19,28 +18,21 @@
 
   socket.on('message', function(message) {
     console.log("received" + message.id)
-    if(messageStack[message.id]) {
-      console.log("message on stack already" + message.id)
-    } else if (isDisplayed(message.id)) {
-      console.log("message on screenxt already" + message.id)
+    if(messageStack[message.id] || isMessageDisplayed(message.id)) {
+      console.log("dropping " + message.id)
     } else {
       messageStack[message.id] = message.content
     }
   });
 
-  var randomProperty = function (obj) {
-    var keys = Object.keys(obj);
-    return keys[ keys.length * Math.random() << 0];
-  };
-
   function displayTick() {
     var messageId = randomProperty(messageStack)
 
     if (messageId) {
-      if (isDisplayed(messageId)) {
+      if (isMessageDisplayed(messageId)) {
         console.log("tried to render, but caught duplicate" + messageId)
       } else {
-        $("<div>", {id: "message_" + messageId, "class": "message"}).text(messageStack[messageId]).prependTo($("#messages"))
+        $("<div>", {id: "message_" + messageId, "class": "message col-lg-2 col-md-3 col-sm-6"}).text(messageStack[messageId]).prependTo($("#messages"))
       }
       delete messageStack[messageId]
     }
@@ -48,6 +40,4 @@
 
   setInterval(displayTick, 1000)
 </script>
-
-
 {% endblock %}

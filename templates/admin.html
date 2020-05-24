@@ -19,50 +19,19 @@
 {% block custom_js %}
 
 <script>
-  var socket = io();
-  socket.on('connect', function() {
-    socket.emit('resend_all');
-  });
-
   $(document).on('keypress',function(e) {
-      if(e.which == 13) {
-            submitMessage()
-      }
+    if(e.which == 13) {
+      submitMessage()
+    }
   });
-
-  function pollApprovals() {
-    socket.emit("request_approvals")
-  }
 
   $(document).ready(function(){
-    setInterval(pollApprovals, 1000)
+    setInterval(requestAllApprovals, 1000)
   });
 
-  function submitMessage() {
-    console.log("Emitting: " + $("#message_input").val())
-    socket.emit("submit_message", {content: $("#message_input").val()})
-
-    $("#message_input").val("")
-  }
-
-  function deleteById(id) {
-    console.log("removing " + id)
-    $("#approval_request_" + id).remove()
-  }
-
-  function reject(id) {
-    socket.emit("reject", { message_id: id })
-    deleteById(id)
-  }
-
-  function approve(id) {
-    socket.emit("approve", { message_id: id })
-    deleteById(id)
-  }
-
   function findOrDisplay(approvalRequest) {
-    var id = "approval_request_" + approvalRequest.id;
-    if (! $("#"+id).length) {
+    if (! isApprovalDisplayed(approvalRequest.id)) {
+      var id = "approval_request_" + approvalRequest.id;
       var element = $("<div>", {id: id, "class": "message-approval"})
       $("<span>", {"class": "id-field"}).text(approvalRequest.id).appendTo(element)
       $(
