@@ -1,9 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
+<h2>Submit message</h2>
 <div>
   Message: <input type="text" id="message_input" />
   <input type="button" value="Send" onclick="submitMessage()"/>
+</div>
+
+<h2>Approve messages</h2>
+
+<div id="messages_awaiting_approval">
 </div>
 
 {% endblock %}
@@ -22,12 +28,65 @@
       }
   });
 
+  function pollApprovals() {
+    socket.emit("request_approvals")
+  }
+
+  $(document).ready(function(){
+    setInterval(pollApprovals, 1000)
+  });
+
   function submitMessage() {
     console.log("Emitting: " + $("#message_input").val())
-    socket.emit("submit_message", {"content": $("#message_input").val()})
+    socket.emit("submit_message", {content: $("#message_input").val()})
 
     $("#message_input").val("")
   }
+
+  function deleteById(id) {
+    console.log("removing " + id)
+    $("#approval_request_" + id).remove()
+  }
+
+  function reject(id) {
+    socket.emit("reject", { message_id: id })
+    deleteById(id)
+  }
+
+  function approve(id) {
+    socket.emit("approve", { message_id: id })
+    deleteById(id)
+  }
+
+  function findOrDisplay(approvalRequest) {
+    var id = "approval_request_" + approvalRequest.id;
+    if (! $("#"+id).length) {
+      var element = $("<div>", {id: id})
+      $("<span>", {style: "float: left; width: 3em; font-weight: bold"}).text(approvalRequest.id).appendTo(element)
+      $(
+        "<input>",
+        {type:"button", value: "👍", style: "background-color: green; margin: 0 .25em 0 .5em"}
+       )
+        .click(function() { approve(approvalRequest.id)})
+        .text(approvalRequest.content)
+        .appendTo(element)
+      $(
+        "<input>",
+        {type:"button", value: "👎", style: "background-color: red; margin: 0 .5em 0 .25em"}
+       )
+        .click(function() { reject(approvalRequest.id)})
+        .text(approvalRequest.content)
+        .appendTo(element)
+      $("<span>").text(approvalRequest.content).appendTo(element)
+      element.appendTo($("#messages_awaiting_approval"))
+    }
+  }
+
+  socket.on("approvals", function(data) {
+    data.forEach(function (approvalRequest) {
+      findOrDisplay(approvalRequest)
+    })
+  })
 </script>
 
 {% endblock %}

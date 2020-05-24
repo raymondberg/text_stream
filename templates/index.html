@@ -7,14 +7,47 @@
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
 <script>
+  function isDisplayed(messageId){
+    return $("#message_" + messageId).length
+  }
   var socket = io();
   socket.on('connect', function() {
     socket.emit('resend_all');
   });
 
+  var messageStack = {};
+
   socket.on('message', function(message) {
-    $("<div>").text(message.content).appendTo($("#messages"))
+    console.log("received" + message.id)
+    if(messageStack[message.id]) {
+      console.log("message on stack already" + message.id)
+    } else if (isDisplayed(message.id)) {
+      console.log("message on screenxt already" + message.id)
+    } else {
+      messageStack[message.id] = message.content
+    }
   });
+
+  var randomProperty = function (obj) {
+    var keys = Object.keys(obj);
+    return keys[ keys.length * Math.random() << 0];
+  };
+
+  function displayTick() {
+    var messageId = randomProperty(messageStack)
+
+    if (messageId) {
+      if (isDisplayed(messageId)) {
+        console.log("tried to render, but caught duplicate" + messageId)
+      } else {
+        $("<div>", {id: "message_" + messageId}).text(messageStack[messageId]).appendTo($("#messages"))
+      }
+      delete messageStack[messageId]
+    }
+  }
+
+  setInterval(displayTick, 1000)
 </script>
+
 
 {% endblock %}
