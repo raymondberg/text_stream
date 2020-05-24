@@ -1,0 +1,12 @@
+export FLASK_APP=app
+export FLASK_ENV=development
+export FLASK_DEBUG=true
+export SECRET_KEY=just-some-local-secret
+
+
+echo "run bin/ngrok http 8000"
+if [ "${1:-}" == "gunicorn" ]; then
+  pipenv run gunicorn -k eventlet text_stream
+else
+  pipenv run flask run --port 8000
+fi

@@ -1,0 +1,14 @@
+#!/bin/bash
+pipenv install
+
+mkdir -p bin
+mkdir -p build
+
+
+if [ ! -f "bin/ngrok" ]; then
+  ngrok_url=https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-darwin-amd64.zip
+  wget --output-document=build/ngrok.zip $ngrok_url
+  unzip -o build/ngrok.zip ngrok -d bin
+fi
+
+pipenv run python -c "from app import db; db.create_all()"
