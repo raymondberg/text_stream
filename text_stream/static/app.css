@@ -1,3 +1,7 @@
+@font-face {
+  font-family: OpenSans;
+  src: url('/static/OpenSans-Regular.ttf');
+}
 
 body {
   background-color: #172A3A;
@@ -16,6 +20,7 @@ body {
 .message {
   border: 2px dotted #508991;
   background-color: #74B3CE;
+  font-family: OpenSans;
   margin: 1em;
   padding: 1em;
 }
@@ -39,22 +44,24 @@ body {
 }
 
 .rainbow-color {
-  position: absolute;
-  display: flex;
   align-items: center;
-  justify-content: center;
+  display: flex;
+  font-family: OpenSans;
   height: 9em;
-  width: 20em;
+  justify-content: center;
   padding: .5em;
+  position: absolute;
   text-align: center;
+  width: 20em;
 }
 
 .rainbow-header {
-  text-align: center;
   background-color: #CDE;
-  top: 0;
-  position: fixed;
+  font-family: OpenSans;
   padding: .25em;
+  position: fixed;
+  text-align: center;
+  top: 0;
   width: 80%;
 }
 
