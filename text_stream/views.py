@@ -1,7 +1,8 @@
-from flask import render_template
+from flask import request, render_template
 
 from .app import app, db, socketio
 from .models import Message
+from .twilio_service import TwilioService
 
 
 def emit(message):
@@ -9,7 +10,7 @@ def emit(message):
 
 
 @app.route("/")
-def home():
+def index():
     return render_template("index.html")
 
 @app.route("/rainbow")
@@ -19,6 +20,23 @@ def rainbow():
 @app.route("/admin")
 def admin():
     return render_template("admin.html")
+
+@TwilioService.is_valid_request
+@app.route("/post/sms", methods=["POST"])
+def sms_post():
+    content = request.values.get('Body', None)
+
+    print(content)
+    if content:
+        if TwilioService.is_too_long(content):
+            return TwilioService.Responses.too_long()
+
+        db.session.add(Message(content=content))
+        db.session.commit()
+
+        return TwilioService.Responses.success()
+
+    return TwilioService.Responses.unknown()
 
 @socketio.on("submit_message")
 def submit_message(data):

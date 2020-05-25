@@ -2,6 +2,8 @@ export FLASK_APP=text_stream.app:app
 export FLASK_ENV=development
 export FLASK_DEBUG=true
 export SECRET_KEY=just-some-local-secret
+export TWILIO_AUTH_TOKEN=your_token
+export TWILIO_SMS_NUMBER=your_number
 
 
 echo "run bin/ngrok http 8000"

@@ -2,6 +2,9 @@
 
 {% block content %}
 
+<div class="rainbow-header">
+  <h3>Text your message to: {{ config.SMS_NUMBER }}
+</div>
 <div id="messages" class="row">
 
 </div>
@@ -39,7 +42,7 @@
     $("<div>", {
       id: "message_" + messageId,
       "class": `rainbow-color rainbow-${rainbowColors[lowestIndex]}`,
-      style: `left: ${20 * lowestCount}em; top: ${9 * lowestIndex}em`,
+      style: `left: ${20 * lowestCount}em; top: ${9 * lowestIndex + 4}em`,
     }).text(messageContent).prependTo($("#messages"))
     window.scroll({left: 99999999})
   }

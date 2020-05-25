@@ -13,5 +13,7 @@ if 'SQLALCHEMY_DATABASE_URI' in os.environ:
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../build/db.sqlite'
 
+app.config['SMS_NUMBER'] = os.environ['TWILIO_SMS_NUMBER']
+
 db = SQLAlchemy(app)
 

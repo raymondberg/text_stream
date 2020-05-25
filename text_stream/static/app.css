@@ -46,6 +46,16 @@ body {
   height: 9em;
   width: 20em;
   padding: .5em;
+  text-align: center;
+}
+
+.rainbow-header {
+  text-align: center;
+  background-color: #CDE;
+  top: 0;
+  position: fixed;
+  padding: .25em;
+  width: 80%;
 }
 
 .rainbow-red { background-color: #ffb3ba ; border-left: 3px solid #fcb0b7}

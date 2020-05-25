@@ -12,6 +12,7 @@ gunicorn = "*"
 eventlet = "*"
 flask-session = "*"
 flask-sqlalchemy = "*"
+twilio = "*"
 
 [requires]
 python_version = "3.8"
