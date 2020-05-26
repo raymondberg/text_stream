@@ -13,6 +13,7 @@ eventlet = "*"
 flask-session = "*"
 flask-sqlalchemy = "*"
 twilio = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.8"
