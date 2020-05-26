@@ -2,6 +2,12 @@
 
 {% block content %}
 
+{% if config.SMS_NUMBER %}
+<div class="header">
+  <h3>Text your message to: {{ config.SMS_NUMBER }}
+</div>
+{% endif %}
+
 <div id="messages" class="row">
 
 </div>

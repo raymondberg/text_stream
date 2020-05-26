@@ -55,14 +55,17 @@ body {
   width: 20em;
 }
 
-.rainbow-header {
+.header, .rainbow-header {
   background-color: #CDE;
   font-family: OpenSans;
   padding: .25em;
-  position: fixed;
   text-align: center;
-  top: 0;
   width: 80%;
+}
+
+.rainbow-header{
+  position: fixed;
+  top: 0;
 }
 
 .rainbow-red { background-color: #ffb3ba ; border-left: 3px solid #fcb0b7}
