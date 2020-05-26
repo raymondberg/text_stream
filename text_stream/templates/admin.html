@@ -12,6 +12,17 @@
 
   <div id="messages_awaiting_approval">
   </div>
+
+  <h2>Manage messages</h2>
+  <p>
+    <a href="/download">Download as CSV</a>
+  </p>
+    <hr />
+  <p>
+    <form action="/purge" method="post">
+      WARNING...No Going back<input type="submit" value="Perform purge"/>
+    </form>
+  </p>
 </div>
 
 {% endblock %}

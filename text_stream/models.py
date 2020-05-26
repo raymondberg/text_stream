@@ -1,8 +1,11 @@
+import csv
 import datetime
+import io
 
 from .app import db
 
 class Message(db.Model):
+    SERIALIZED_HEADERS = ["id","content"]
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(240), nullable=False)
     submitted_at = db.Column(db.DateTime, default=datetime.datetime.utcnow, nullable=False)
@@ -14,6 +17,14 @@ class Message(db.Model):
         if isinstance(message_data, cls):
             return message_data.to_json()
         return [m.to_json() for m in message_data]
+
+    @classmethod
+    def as_csv(cls, dataset=None):
+        output = io.StringIO()
+        writer = csv.DictWriter(output, fieldnames=cls.SERIALIZED_HEADERS)
+        for m in cls.serialize(dataset or cls.query.all()):
+            writer.writerow(m)
+        return output.getvalue()
 
     @classmethod
     def pending_approval(cls):
@@ -37,7 +48,7 @@ class Message(db.Model):
         return f"<Message {self.id}, approved={self.approved_at},rejected={self.rejected_at}>"
 
     def to_json(self):
-        return {"id": self.id, "content": self.content}
+        return {att: getattr(self, att) for att in self.SERIALIZED_HEADERS}
 
 
 models_loaded = True

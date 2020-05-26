@@ -1,4 +1,6 @@
-from flask import request, render_template, session
+import datetime
+
+from flask import Response, g, redirect, request, render_template, session
 
 from .app import app, db, socketio
 from .models import Message
@@ -54,6 +56,25 @@ def sms_post():
         return TwilioService.Responses.success()
 
     return TwilioService.Responses.unknown()
+
+@require_admin
+@app.route("/download", methods=["GET"])
+def download():
+    return Response(
+            Message.as_csv(),
+            mimetype="text/csv",
+            headers={"Content-disposition":
+                f"attachment; filename=text_stream_export_{datetime.datetime.now():%Y-%m-%d_%H%M}.csv"})
+
+
+    db.session.commit()
+
+@require_admin
+@app.route("/purge", methods=["POST"])
+def purge():
+    db.session.query(Message).delete()
+    db.session.commit()
+    return redirect("/admin")
 
 @require_admin
 @socketio.on("submit_message")
