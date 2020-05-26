@@ -2,11 +2,13 @@
 
 {% block content %}
 
+{% if config.SMS_NUMBER %}
 <div class="rainbow-header">
   <h3>Text your message to: {{ config.SMS_NUMBER }}
 </div>
-<div id="messages" class="row">
+{% endif %}
 
+<div id="messages" class="row">
 </div>
 
 {% endblock %}

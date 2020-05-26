@@ -15,7 +15,7 @@ if 'SQLALCHEMY_DATABASE_URI' in os.environ:
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../build/db.sqlite'
 
-app.config['SMS_NUMBER'] = os.environ['TWILIO_SMS_NUMBER']
+app.config['SMS_NUMBER'] = os.environ.get('TWILIO_SMS_NUMBER', False)
 app.config['ADMINS'] = {entry.split("===")[0]: entry.split("===")[1] for entry in os.environ['ADMINS'].split(":::")}
 
 db = SQLAlchemy(app)
