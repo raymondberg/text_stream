@@ -30,6 +30,10 @@ def index():
 def rainbow():
     return render_template("rainbow.html")
 
+@app.route("/holiday")
+def holiday():
+    return render_template("holiday.html")
+
 @app.route("/admin", methods=["POST", "GET"])
 def admin():
     username = request.form.get('username')

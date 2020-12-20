@@ -55,7 +55,7 @@ body {
   width: 20em;
 }
 
-.header, .rainbow-header {
+.header, .rainbow-header, .holiday-header {
   background-color: #CDE;
   font-family: OpenSans;
   padding: .25em;
@@ -63,7 +63,8 @@ body {
   width: 80%;
 }
 
-.rainbow-header{
+/* RAINBOW STYLES */
+.rainbow-header, .holiday-header{
   position: fixed;
   top: 0;
 }
@@ -73,3 +74,38 @@ body {
 .rainbow-yellow { background-color: #fff8b3 ; border-left: 3px solid #fcf5b0}
 .rainbow-green { background-color: #baffb3 ; border-left: 3px solid #b7fcb0}
 .rainbow-blue { background-color: #bae1ff ; border-left: 3px solid #b7d8fc}
+
+/* HOLIDAY STYLES */
+
+#snowflakeContainer {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	display: none;
+}
+
+.holiday-color {
+  align-items: center;
+  display: flex;
+  font-family: OpenSans;
+  height: 9em;
+  justify-content: center;
+  padding: .5em;
+  position: absolute;
+  text-align: center;
+  width: 20em;
+}
+.snowflake {
+	position: fixed;
+	background-color: #CCC;
+	user-select: none;
+	z-index: 1000;
+	pointer-events: none;
+	border-radius: 50%;
+	width: 10px;
+	height: 10px;
+}
+
+.holiday-green1, .holiday-green2 { background-color: #019D43 ; border-left: 3px solid #017D23}
+.holiday-white1, .holiday-white2 { background-color: #F3EFEE ; border-left: 3px solid #D3CFCE}
+.holiday-red { background-color: #DE1E26 ; border-left: 3px solid #BE0E06}
